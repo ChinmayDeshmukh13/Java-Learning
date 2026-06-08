@@ -1,6 +1,6 @@
 package SlidingWindow;
 
-import java.util.HashSet;
+import java.util.HashMap;
 
 public class FruitsIntoBasket {
     public static void main(String[] args) {
@@ -9,18 +9,18 @@ public class FruitsIntoBasket {
     }
     public static int maxFruits(int[] fruits) {
         int max = 0;
-        HashSet<Integer> set = new HashSet<>();
+        HashMap<Integer, Integer> map = new HashMap<>();
         int left = 0;
         for (int i = 0; i < fruits.length; i++) {
-            set.add(fruits[i]);
-
-            while(set.size() > 2) {
-                set.remove(left);
+            map.put(fruits[i], map.getOrDefault(fruits[i], 0) + 1);
+            while (map.size() > 2) {
+                map.put(fruits[left], map.get(fruits[left]) - 1);
+                if (map.get(fruits[left]) == 0) {
+                    map.remove(fruits[left]);
+                }
                 left++;
             }
-            System.out.println(set);
-            max = Math.max(max, i - left +1);
-            System.out.println(max);
+            max = Math.max(max, i - left + 1);
         }
         return max;
     }
